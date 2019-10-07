@@ -9,7 +9,10 @@ const Login = (props) => {
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [error, changeError] = useState('Invalid credentials')
-  let passwordNode; let spinnerNode; let buttonNode; const form = React.createRef()
+  const passwordNode = React.createRef()
+  const form = React.createRef()
+  let spinnerNode = React.createRef()
+  let buttonNode = React.createRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -40,9 +43,9 @@ const Login = (props) => {
   }
 
   return (
-    <Container fluid className='h-100vh'>
-      <Row className='justify-content-center h-100vh'>
-        <Col lg={4} md={8} className='h-100vh'>
+    <Container fluid>
+      <Row className='justify-content-center'>
+        <Col lg={4} md={8}>
           <Form
             ref={form}
             noValidate
