@@ -1,0 +1,22 @@
+@import 'mixins';
+
+.app-btn {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.app-col {
+  margin: 15% 0;
+}
+
+@include media-breakpoint-down(sm) {
+  .main-col {
+    margin: 25% 0;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .main-col {
+    margin: 35% 0;
+  }
+}

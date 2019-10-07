@@ -16,6 +16,11 @@ a {
   color: $link-blue;
 }
 
+.btn-primary {
+  background-color: $accent-blue;
+  border-color: $accent-blue;
+}
+
 .form-control,
 .form-control:focus {
   background-color: $darker-grey;

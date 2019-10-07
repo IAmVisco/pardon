@@ -10,6 +10,7 @@
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.10.2",
+    "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "uuid-validate": "^0.0.3"
@@ -29,7 +30,8 @@
       "localStorage": true
     },
     "rules": {
-      "no-return-assign": "off"
+      "no-return-assign": "off",
+      "react/prop-types": "off"
     }
   },
   "browserslist": {

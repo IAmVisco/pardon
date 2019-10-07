@@ -16,7 +16,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      props.history.push('/')
+      props.history.push('/profile')
     }
   })
 
@@ -24,6 +24,8 @@ const Login = (props) => {
     e.preventDefault()
     toggleButton(buttonNode, spinnerNode)
     console.log(email, password)
+    localStorage.setItem('token', '123')
+    props.history.push('/profile')
     // this.password.setCustomValidity('')
     // this.form.classList.add('was-validated')
     // if (!e.currentTarget.checkValidity()) {

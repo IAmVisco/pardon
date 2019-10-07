@@ -14,18 +14,10 @@ const Register = (props) => {
   const form = React.createRef()
   let spinnerNode = React.createRef()
   let buttonNode = React.createRef()
-  //   errors: {
-  //     email: [],
-  //     username: [],
-  //     password: []
-  //   },
-  //   emailTaken: false,
-  //   usernameTaken: false
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      // eslint-disable-next-line react/prop-types
-      props.history.push('/')
+      props.history.push('/profile')
     }
   })
 
@@ -34,7 +26,7 @@ const Register = (props) => {
     toggleButton(buttonNode, spinnerNode)
     if (!e.currentTarget.checkValidity()) {
       toggleButton(buttonNode, spinnerNode)
-      form.classList.add('was-validated')
+      form.current.classList.add('was-validated')
     }
     console.log(email, username, password, passwordConfirmation)
 
