@@ -1,0 +1,27 @@
+@import 'mixins';
+@import 'colors';
+
+.h-100vh {
+  height: 100vh;
+}
+
+.login-form,
+.register-form {
+  @include card-shared();
+  margin: 40% 0;
+  text-align: center;
+  padding: 15px;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
