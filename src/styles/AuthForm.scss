@@ -8,7 +8,6 @@
 .login-form,
 .register-form {
   @include card-shared();
-  margin: 40% 0;
   text-align: center;
   padding: 15px;
 
@@ -24,4 +23,12 @@
     width: 100%;
     margin-bottom: 1rem;
   }
+}
+
+.login-form {
+  margin: 40% 0;
+}
+
+.register-form {
+    margin: 28% 0;
 }

@@ -13,7 +13,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      this.props.history.push('/')
+      props.history.push('/')
     }
   })
 
@@ -70,7 +70,7 @@ const Login = (props) => {
               />
               <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
             </Form.Group>
-            <Button ref={node => buttonNode = node} variant='primary' type='submit'>Login
+            <Button ref={node => buttonNode = node} variant='primary' type='submit'><b>Login</b>
               <Spinner
                 ref={node => spinnerNode = node}
                 animation='border'

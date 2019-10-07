@@ -120,7 +120,7 @@ class Register extends React.Component {
                   isInvalid={this.state.passwordConfirmation !== this.state.password} />
                 <Form.Control.Feedback type="invalid">Passwords don't match.</Form.Control.Feedback>
               </Form.Group>
-              <Button variant="primary" type="submit">Register
+              <Button variant="primary" type="submit"><b>Register</b>
                 <Spinner
                   animation="border"
                   className="btn-spinner ml-1 d-none"
