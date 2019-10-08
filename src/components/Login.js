@@ -18,7 +18,8 @@ const Login = (props) => {
     if (localStorage.getItem('token')) {
       props.history.push('/profile')
     }
-  })
+    // eslint-disable-next-line
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
