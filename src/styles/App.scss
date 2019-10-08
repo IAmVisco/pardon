@@ -10,13 +10,13 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .main-col {
+  .app-col {
     margin: 25% 0;
   }
 }
 
 @include media-breakpoint-down(xs) {
-  .main-col {
+  .app-col {
     margin: 35% 0;
   }
 }
