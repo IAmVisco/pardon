@@ -7,8 +7,9 @@ import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import * as serviceWorker from './serviceWorker'
 import Login from './components/Login'
-import Register from './components/Register'
 import Profile from './components/Profile'
+import Register from './components/Register'
+import QrReader from './components/QrReader'
 
 const Routing = withRouter(({ location }) => {
   return (
@@ -24,6 +25,7 @@ const Routing = withRouter(({ location }) => {
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/profile' component={Profile} />
+            <Route exact path='/qr-reader' component={QrReader} />
           </Switch>
         </section>
       </CSSTransition>

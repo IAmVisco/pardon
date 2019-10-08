@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
 // import api from '../api'
@@ -9,10 +9,10 @@ const Login = (props) => {
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [error] = useState('Invalid credentials')
-  const passwordNode = React.createRef()
-  const form = React.createRef()
-  let spinnerNode = React.createRef()
-  let buttonNode = React.createRef()
+  const passwordNode = useRef()
+  const form = useRef()
+  let spinnerNode = useRef()
+  let buttonNode = useRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -76,7 +76,8 @@ const Login = (props) => {
               />
               <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
             </Form.Group>
-            <Button ref={node => buttonNode = node} variant='primary' type='submit'><b>Login</b>
+            <Button ref={node => buttonNode = node} variant='primary' type='submit'>
+              <b>Login</b>
               <Spinner
                 ref={node => spinnerNode = node}
                 animation='border'

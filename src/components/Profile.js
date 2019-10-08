@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import '../styles/Profile.scss'
 
 const Profile = (props) => {
@@ -14,7 +15,9 @@ const Profile = (props) => {
       <Button variant='danger' onClick={logout}>Log out</Button>
       <br />
       <Button variant='outline-primary' className='mr-3'>Show QR</Button>
-      <Button variant='primary'>Open QR Reader</Button>
+      <LinkContainer to='/qr-reader'>
+        <Button variant='primary'>Open QR Reader</Button>
+      </LinkContainer>
     </div>
   )
 }
