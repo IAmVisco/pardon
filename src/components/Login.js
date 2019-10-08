@@ -84,7 +84,8 @@ const Login = (props) => {
                 size='sm'
               />
             </Button>
-            <small>Don't have an account yet? <Link to='/register'>Register</Link></small>
+            <small className='d-block'>Don't have an account yet? <Link to='/register'>Register</Link></small>
+            <small><Link to='/'>Go back</Link></small>
           </Form>
         </Col>
       </Row>

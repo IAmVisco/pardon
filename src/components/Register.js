@@ -102,7 +102,8 @@ const Register = (props) => {
                 size='sm'
               />
             </Button>
-            <small>Have an account already? <Link to='/login'>Login</Link></small>
+            <small className='d-block'>Have an account already? <Link to='/login'>Login</Link></small>
+            <small><Link to='/'>Go back</Link></small>
           </Form>
         </Col>
       </Row>
