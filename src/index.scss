@@ -4,8 +4,8 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $bg-grey;
@@ -21,8 +21,7 @@ a {
   border-color: $accent-blue;
 }
 
-.form-control,
-.form-control:focus {
+.form-control {
   background-color: $darker-grey;
   border-color: $darker-grey;
   height: initial;
@@ -30,6 +29,8 @@ a {
 
   &:focus {
     @include disable-focus-glow();
+    background-color: $darker-grey;
+    color: $white;
 
     &::placeholder {
       color: $input-focus-placeholder;
@@ -39,5 +40,35 @@ a {
   &::placeholder {
     color: $input-placeholder;
   }
+}
 
+.fade-route {
+  &-enter {
+    opacity: 0;
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+}
+
+div.transition-group {
+  position: relative;
+}
+
+section.route-section {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }

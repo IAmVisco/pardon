@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
-import api from '../api'
+// import api from '../api'
 import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
 const Login = (props) => {
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
-  const [error, changeError] = useState('Invalid credentials')
+  const [error] = useState('Invalid credentials')
   const passwordNode = React.createRef()
   const form = React.createRef()
   let spinnerNode = React.createRef()
