@@ -22,7 +22,6 @@ const QrReader = () => {
   const canvasRef = useRef()
   const contextRef = useRef()
   const video = document.createElement('video')
-  const [stream, changeStream] = useState(null)
 
   const tick = () => {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -53,14 +52,14 @@ const QrReader = () => {
   useEffect(() => {
     contextRef.current = canvasRef.current.getContext && canvasRef.current.getContext('2d')
     window.navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-      changeStream(stream)
+      window.streamRef = stream // TODO: figure out why state doesn't work but window does
       video.srcObject = stream
       video.setAttribute('playsinline', true) // required to tell iOS safari we don't want fullscreen
       video.play()
       window.requestAnimationFrame(tick)
     })
     return () => {
-      stream && stream.getTracks().forEach((track) => {
+      window.streamRef && window.streamRef.getTracks().forEach((track) => {
         track.stop()
       })
     }
