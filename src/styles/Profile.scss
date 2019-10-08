@@ -1,0 +1,12 @@
+@import 'mixins';
+@import 'colors';
+
+.avatar--content {
+    width: 50vw;
+    height: 50vw;
+    border-radius: 50%;
+    background-color: $white;
+    margin: auto;
+    max-width: 250px;
+    max-height: 250px;
+} 
