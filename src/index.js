@@ -18,14 +18,14 @@ const Routing = withRouter(({ location }) => {
         timeout={{ enter: 200, exit: 200 }}
         classNames='fade-route'
       >
-        <section className='route-section'>
+        <div className='route-section'>
           <Switch location={location}>
             <Route exact path='/' component={App} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/profile' component={Profile} />
           </Switch>
-        </section>
+        </div>
       </CSSTransition>
     </TransitionGroup>
   )
