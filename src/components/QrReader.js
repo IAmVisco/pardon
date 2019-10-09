@@ -54,6 +54,7 @@ const QrReader = (props) => {
       if (code) {
         navigator.vibrate(200)
         // console.log(code)
+
         props.history.push({
           pathname: '/transfer',
           state: {
@@ -73,6 +74,7 @@ const QrReader = (props) => {
     })
 
     return () => {
+      workerRef.current && workerRef.current.terminate()
       window.streamRef && window.streamRef.getTracks().forEach((track) => {
         track.stop()
       })

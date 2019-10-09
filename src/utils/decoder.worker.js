@@ -5,5 +5,7 @@ self.addEventListener('message', (event) => {
   const code = jsQR(data, width, height, {
     inversionAttempts: 'dontInvert'
   })
-  postMessage(code)
+  if (code && code.data) {
+    postMessage(code)
+  }
 })
