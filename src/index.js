@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker'
 import Login from './components/Login'
 import Profile from './components/Profile'
 import Register from './components/Register'
+import Transfer from './components/Transfer'
 import QrReader from './components/QrReader'
 
 const Routing = withRouter(({ location }) => {
@@ -26,6 +27,7 @@ const Routing = withRouter(({ location }) => {
             <Route exact path='/register' component={Register} />
             <Route exact path='/profile' component={Profile} />
             <Route exact path='/qr-reader' component={QrReader} />
+            <Route exact path='/transfer' component={Transfer} />
           </Switch>
         </section>
       </CSSTransition>

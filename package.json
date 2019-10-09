@@ -14,10 +14,11 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-transition-group": "^4.3.0",
-    "uuid-validate": "^0.0.3"
+    "uuid-validate": "^0.0.3",
+    "worker-loader": "^2.0.0"
   },
   "scripts": {
-    "start": "setx HTTPS \"true\" && react-scripts start",
+    "start": "set HTTPS=true&& react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
