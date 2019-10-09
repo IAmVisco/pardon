@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import jsQR from 'jsqr'
 
-const QrReader = () => {
+const QrReader = (props) => {
   let constraintDimensions = null
   const { height, width } = window.screen
   if (window.screen.orientation.type.includes('landscape')) {
@@ -26,12 +26,12 @@ const QrReader = () => {
   const tick = () => {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       if (!contextRef.current || !canvasRef.current) {
+        window.requestAnimationFrame(tick)
         return
       }
 
       const canvas = canvasRef.current
       const ctx = contextRef.current
-      canvas.hidden = false
 
       canvas.height = video.videoHeight
       canvas.width = video.videoWidth
@@ -41,10 +41,9 @@ const QrReader = () => {
         inversionAttempts: 'dontInvert'
       })
 
-      if (code) {
+      if (code && code.data) {
         navigator.vibrate(200)
-        console.log(code)
-        video.pause()
+        props.history.push('/transfer', { data: code.data })
       }
     }
     window.requestAnimationFrame(tick)
@@ -58,18 +57,15 @@ const QrReader = () => {
       video.play()
       window.requestAnimationFrame(tick)
     })
+
     return () => {
-      window.streamRef && window.streamRef.getTracks().forEach((track) => {
-        track.stop()
-      })
+      window.streamRef && window.streamRef.getTracks().forEach(track => track.stop())
     }
     // eslint-disable-next-line
   }, [canvasRef])
 
   return (
-    <>
-      <canvas ref={canvasRef} hidden />
-    </>
+    <canvas ref={canvasRef} />
   )
 }
 
