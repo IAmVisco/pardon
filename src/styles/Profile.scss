@@ -5,8 +5,31 @@
     width: 50vw;
     height: 50vw;
     border-radius: 50%;
-    background-color: $white;
+    background-color: $color-placeholder;
     margin: auto;
     max-width: 250px;
     max-height: 250px;
-} 
+}
+
+.profile-col {
+    margin: 10% 0;
+}
+
+.sm-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $color-placeholder;
+    text-align: center;
+    float: right;
+    margin: 20px 5px 0 10px;
+}
+
+@include media-breakpoint-down(sm) {
+    .profile-col {
+      margin: 25% 0;
+    }
+  }
