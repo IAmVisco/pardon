@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { FaHistory, FaPowerOff } from 'react-icons/fa'
 import '../styles/Profile.scss'
 
 const Profile = (props) => {
-  const name = 'Kekster'
-  const balance = '100'
+  const [name] = useState('Kekster')
+  const [balance] = useState(100)
 
-  const logout = (e) => {
+  const logout = () => {
     localStorage.removeItem('token')
     props.history.push('/')
   }
@@ -15,15 +15,15 @@ const Profile = (props) => {
   return (
     <Container fluid>
       <Row className='justify-content-right'>
-        <Col lg={12} md={8}>
-          <div className="sm-btn">
-            <div className="pb-1">
-              <FaPowerOff size="1.5em" />
+        <Col lg={12}>
+          <div className='sm-btn' onClick={logout}>
+            <div>
+              <FaPowerOff size='1.5em' />
             </div>
           </div>
-          <div className="sm-btn">
-            <div className="pb-1">
-              <FaHistory size="1.5em" />
+          <div className='sm-btn'>
+            <div>
+              <FaHistory size='1.5em' />
             </div>
           </div>
         </Col>
@@ -31,7 +31,7 @@ const Profile = (props) => {
       <Row className='justify-content-center'>
         <Col lg={4} md={8} className='text-center profile-col'>
           <div className='avatar--container'>
-            <div className='avatar--content'></div>
+            <div className='avatar--content' />
           </div>
           <div className='mt-4 mb-5'>
             <h3>{name}</h3>
