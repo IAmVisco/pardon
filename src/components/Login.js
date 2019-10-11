@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
-// import api from '../api'
+import api from '../api'
 import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
@@ -21,28 +21,31 @@ const Login = (props) => {
     // eslint-disable-next-line
   }, [])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     toggleButton(buttonNode, spinnerNode)
-    console.log(email, password)
-    localStorage.setItem('token', '123')
-    props.history.push('/profile')
-    // this.password.setCustomValidity('')
-    // this.form.classList.add('was-validated')
-    // if (!e.currentTarget.checkValidity()) {
-    //   toggleButton(this.button, this.spinner)
-    //   return
-    // }
-    // api.user.signIn(email, password).then(() => {
-    //   api.user.get().then((res) => {
-    //     this.props.history.push('/')
-    //   })
-    // }).catch((err) => {
-    //   changeError(err.response.data.data)
-    //   passwordNode.setCustomValidity(error)
-    // }).finally(() => {
-    //   toggleButton(this.button, this.spinner)
-    // })
+
+    passwordNode.current.setCustomValidity('')
+    form.current.classList.add('was-validated')
+    if (!e.currentTarget.checkValidity()) {
+      toggleButton(buttonNode, spinnerNode)
+      return
+    }
+
+    try {
+      const res = await api.user.login(email, password)
+      if (!res.data) {
+        passwordNode.current.setCustomValidity('invalid')
+      }
+      const { token, login, balance } = res.data
+      localStorage.setItem('token', token)
+      props.history.push('/profile', { login, balance })
+    } catch (err) {
+      console.error(err.response)
+      toggleButton(buttonNode, spinnerNode)
+      // changeError(err.response.data.data)
+      // passwordNode.setCustomValidity(error)
+    }
   }
 
   return (
@@ -59,7 +62,7 @@ const Login = (props) => {
             <Form.Group controlId='loginEmail'>
               <Form.Control
                 required
-                type='email'
+                type='text'
                 name='email'
                 placeholder='Email'
                 onChange={(e) => changeEmail(e.target.value)}

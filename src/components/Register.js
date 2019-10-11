@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
-// import api from '../api'
+import api from '../api'
 import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
@@ -21,26 +21,25 @@ const Register = (props) => {
     }
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     toggleButton(buttonNode, spinnerNode)
     if (!e.currentTarget.checkValidity()) {
       toggleButton(buttonNode, spinnerNode)
       form.current.classList.add('was-validated')
+      return
     }
-    console.log(email, username, password, passwordConfirmation)
 
-    // api.user.register(this.state.email, this.state.username, this.state.password).then(() => {
-    //   this.props.dispatch({ type: LOGIN_USER })
-    //   api.user.get().then((res) => {
-    //     this.props.dispatch({ type: SAVE_USER, payload: res.data.user })
-    //     this.props.history.push('/')
-    //   })
-    // }).catch((err) => {
-    //   this.setState({ errors: err.response.data.errors })
-    // }).finally(() => {
-    //   toggleButton(this.button, this.spinner)
-    // })
+    try {
+      await api.user.register(email, username, password)
+    } catch (err) {
+      if (err.response.status !== 200 || err.response.data.errors) {
+        console.error(err.response)
+      }
+      // changeError(err.response.data.errors) // Need errors response
+    } finally {
+      toggleButton(buttonNode, spinnerNode)
+    }
   }
   return (
     <Container fluid>
@@ -75,17 +74,18 @@ const Register = (props) => {
             <Form.Group controlId='registerPassword'>
               <Form.Control
                 required
-                minLength='8'
+                minLength='6'
                 type='password'
                 name='password'
                 placeholder='Password'
                 onChange={(e) => changePassword(e.target.value)}
               />
+              <Form.Control.Feedback type='invalid'>Password should be at least 6 symbols long.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId='registerPasswordConfirmation'>
               <Form.Control
                 required
-                minLength='8'
+                minLength='6'
                 type='password'
                 name='passwordConfirmation'
                 placeholder='Password confirmation'

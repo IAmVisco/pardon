@@ -4,13 +4,15 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import '../styles/Profile.scss'
 
-const Profile = (props) => {
-  const [name] = useState('Kekster')
-  const [balance] = useState(100)
+const Profile = ({ location, history }) => {
+  /* eslint-disable */
+  const [name] = useState(location.state && location.state.login || 'Fix this')
+  const [balance] = useState(location.state && location.state.balance || 999)
+  /* eslint-enable */
 
   const logout = () => {
     localStorage.removeItem('token')
-    props.history.push('/')
+    history.push('/')
   }
 
   return (
