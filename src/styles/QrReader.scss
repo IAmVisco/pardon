@@ -1,0 +1,23 @@
+.hourglass {
+  animation: hourglass 3s infinite ease-in-out;
+  transform-origin: 50% 55%;
+  display: inline-block;
+}
+
+@keyframes hourglass {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react'
+// eslint-disable-next-line
+import React, { useEffect, useState, useRef } from 'react'
 import jsQR from 'jsqr'
+import '../styles/QrReader.scss'
 
 const QrReader = (props) => {
   const canvasRef = useRef()
   const contextRef = useRef()
+  // const [hourglassVisible, changeHourglassVisible] = useState(true)
   const video = document.createElement('video')
   const { height, width, orientation } = window.screen
   // noinspection JSSuspiciousNameCombination
@@ -42,6 +45,7 @@ const QrReader = (props) => {
     }
     window.requestAnimationFrame(drawFrame)
   }
+
   useEffect(() => {
     contextRef.current = canvasRef.current.getContext && canvasRef.current.getContext('2d')
     window.navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
@@ -59,7 +63,11 @@ const QrReader = (props) => {
   }, [canvasRef])
 
   return (
-    <canvas ref={canvasRef} />
+    <>
+      <span>Accessing camera... Hold tight! </span>
+      <span className='hourglass' role='img' aria-label='hourglass'>⏳</span>
+      <canvas ref={canvasRef} />
+    </>
   )
 }
 

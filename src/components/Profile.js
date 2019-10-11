@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap'
 import { FaHistory, FaPowerOff } from 'react-icons/fa'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Button, Col, Container, Row } from 'react-bootstrap'
 import '../styles/Profile.scss'
 
 const Profile = (props) => {
@@ -37,8 +38,10 @@ const Profile = (props) => {
             <h3>{name}</h3>
             <h3>Balance: {balance}</h3>
           </div>
-          <Button variant='primary' className='mr-3'>Show QR</Button>
-          <Button variant='primary'>Open QR Reader</Button>
+          <Button variant='primary' className='btn-shadow mr-3'>Show QR</Button>
+          <LinkContainer to='qr-reader'>
+            <Button variant='primary' className='btn-shadow'>Scan QR</Button>
+          </LinkContainer>
         </Col>
       </Row>
     </Container>
