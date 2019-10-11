@@ -15,8 +15,8 @@
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 }
 
-.profile-col {
-  margin: 10% 0;
+.profile-row {
+  height: calc(100vh - 128px);
 }
 
 .sm-btn {
@@ -44,10 +44,6 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .profile-col {
-    margin: 15% 0;
-  }
-
   .sm-btn > div {
     padding-bottom: 2px;
   }

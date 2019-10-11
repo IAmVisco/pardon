@@ -29,8 +29,8 @@ const Profile = (props) => {
           </div>
         </Col>
       </Row>
-      <Row className='justify-content-center'>
-        <Col lg={4} md={8} className='text-center profile-col'>
+      <Row className='justify-content-center align-items-center profile-row'>
+        <Col lg={4} md={8} className='text-center'>
           <div className='avatar--container'>
             <div className='avatar--content' />
           </div>
@@ -39,7 +39,7 @@ const Profile = (props) => {
             <h3>Balance: {balance}</h3>
           </div>
           <Button variant='primary' className='btn-shadow mr-3'>Show QR</Button>
-          <LinkContainer to='qr-reader'>
+          <LinkContainer to='/qr-reader'>
             <Button variant='primary' className='btn-shadow'>Scan QR</Button>
           </LinkContainer>
         </Col>

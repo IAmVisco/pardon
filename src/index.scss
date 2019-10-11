@@ -49,7 +49,7 @@ a {
 
   &-enter-active {
     opacity: 1;
-    transition: opacity .2s ease-in-out;
+    transition: opacity .2s ease-in;
   }
 
   &-exit {
@@ -58,7 +58,7 @@ a {
 
   &-exit-active {
     opacity: 0;
-    transition: opacity .2s ease-in-out;
+    transition: opacity .2s ease-out;
   }
 }
 

@@ -44,7 +44,7 @@ const Register = (props) => {
   }
   return (
     <Container fluid>
-      <Row className='justify-content-center'>
+      <Row className='justify-content-center align-items-center full-vh-row'>
         <Col lg={4} md={8}>
           <Form
             ref={form}
@@ -94,7 +94,7 @@ const Register = (props) => {
               />
               <Form.Control.Feedback type='invalid'>Passwords don't match.</Form.Control.Feedback>
             </Form.Group>
-            <Button ref={node => buttonNode = node} variant='primary' type='submit'>
+            <Button ref={node => buttonNode = node} variant='primary' className='btn-shadow' type='submit'>
               <b>Register</b>
               <Spinner
                 ref={node => spinnerNode = node}

@@ -4,19 +4,3 @@
   width: 100%;
   margin-bottom: 1rem;
 }
-
-.app-col {
-  margin: 15% 0;
-}
-
-@include media-breakpoint-down(sm) {
-  .app-col {
-    margin: 25% 0;
-  }
-}
-
-@include media-breakpoint-down(xs) {
-  .app-col {
-    margin: 45% 0;
-  }
-}
