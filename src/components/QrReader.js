@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import React, { useEffect, useState, useRef } from 'react'
 import jsQR from 'jsqr'
 import '../styles/QrReader.scss'
@@ -6,7 +5,8 @@ import '../styles/QrReader.scss'
 const QrReader = (props) => {
   const canvasRef = useRef()
   const contextRef = useRef()
-  // const [hourglassVisible, changeHourglassVisible] = useState(true)
+  const [hourglassVisible, changeHourglassVisible] = useState(true)
+  const [permissionMessage, changePermissionMessage] = useState('If you see camera permission prompt - accept it.')
   const video = document.createElement('video')
   const { height, width, orientation } = window.screen
   // noinspection JSSuspiciousNameCombination
@@ -47,6 +47,11 @@ const QrReader = (props) => {
   }
 
   useEffect(() => {
+    if (!window.navigator.mediaDevices || !window.navigator.mediaDevices.getUserMedia) {
+      changePermissionMessage('Seems like your device/browser doesn\'t support this application')
+      return
+    }
+
     contextRef.current = canvasRef.current.getContext && canvasRef.current.getContext('2d')
     window.navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
       window.streamRef = stream // TODO: figure out why state doesn't work but window does
@@ -54,6 +59,7 @@ const QrReader = (props) => {
       video.setAttribute('playsinline', true) // required to tell iOS safari we don't want fullscreen
       video.play()
       window.requestAnimationFrame(drawFrame)
+      changeHourglassVisible(false)
     })
 
     return () => {
@@ -64,9 +70,13 @@ const QrReader = (props) => {
 
   return (
     <>
-      <span>Accessing camera... Hold tight! </span>
-      <span className='hourglass' role='img' aria-label='hourglass'>⏳</span>
-      <canvas ref={canvasRef} />
+      <div className={hourglassVisible ? 'd-block text-center' : 'd-none'}>
+        <span>Accessing camera... Hold tight! </span>
+        <span className='hourglass' role='img' aria-label='hourglass'>⏳</span>
+        <br />
+        <span>{permissionMessage}</span>
+      </div>
+      <canvas className={!hourglassVisible ? 'd-block' : 'd-none'} ref={canvasRef} />
     </>
   )
 }
