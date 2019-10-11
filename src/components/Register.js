@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
 // import api from '../api'
@@ -11,9 +11,9 @@ const Register = (props) => {
   const [password, changePassword] = useState('')
   const [passwordConfirmation, changePasswordConfirmation] = useState('')
   // const [error, changeError] = useState('Invalid credentials')
-  const form = React.createRef()
-  let spinnerNode = React.createRef()
-  let buttonNode = React.createRef()
+  const form = useRef()
+  let spinnerNode = useRef()
+  let buttonNode = useRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -94,7 +94,8 @@ const Register = (props) => {
               />
               <Form.Control.Feedback type='invalid'>Passwords don't match.</Form.Control.Feedback>
             </Form.Group>
-            <Button ref={node => buttonNode = node} variant='primary' type='submit'><b>Register</b>
+            <Button ref={node => buttonNode = node} variant='primary' type='submit'>
+              <b>Register</b>
               <Spinner
                 ref={node => spinnerNode = node}
                 animation='border'
