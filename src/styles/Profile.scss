@@ -59,13 +59,3 @@
     background-color: lighten($color-placeholder, 10%);
   }
 }
-
-.sm-btn > div {
-  padding-bottom: 3px;
-}
-
-@include media-breakpoint-down(sm) {
-  .sm-btn > div {
-    padding-bottom: 2px;
-  }
-}

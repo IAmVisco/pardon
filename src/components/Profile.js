@@ -11,7 +11,7 @@ const Profile = ({ history }) => {
   const canvasRef = useRef()
   const [name, changeName] = useState(localStorage.getItem('userName') || '​')
   const [balance, changeBalance] = useState(+localStorage.getItem('balance') || 0)
-  const [QrVisible, changeQrVisible] = useState(false)
+  const [qrVisible, changeQrVisible] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,28 +41,29 @@ const Profile = ({ history }) => {
     history.push('/')
   }
 
+  // eslint-disable-next-line
+  const renderCountUp = ({ countUpRef }) => <h3 ref={countUpRef} />
+
+  const toggleQr = () => changeQrVisible(!qrVisible)
+
   return (
     <Container fluid>
       <Row className='justify-content-right'>
         <Col lg={12}>
-          <div className='sm-btn' onClick={logout}>
-            <div>
-              <FaPowerOff size='1.5em' />
-            </div>
+          <div className='sm-btn' title='Logout' onClick={logout}>
+            <FaPowerOff size='1.5em' />
           </div>
-          <div className='sm-btn'>
-            <div>
-              <FaHistory size='1.5em' />
-            </div>
+          <div className='sm-btn' title='Transaction history'>
+            <FaHistory size='1.5em' />
           </div>
         </Col>
       </Row>
       <Row className='justify-content-center align-items-center profile-row'>
         <Col lg={4} md={8} className='text-center'>
           <div className='avatar--container'>
-            <div className={'avatar--content' + (QrVisible ? ' transparent' : '')} />
+            <div className={'avatar--content' + (qrVisible ? ' transparent' : '')} />
             <canvas
-              className={'avatar--canvas m-auto btn-shadow' + (QrVisible ? '' : ' transparent')}
+              className={'avatar--canvas m-auto btn-shadow' + (qrVisible ? '' : ' transparent')}
               ref={canvasRef}
             />
           </div>
@@ -74,18 +75,15 @@ const Profile = ({ history }) => {
               end={balance}
               prefix='Balance: '
             >
-              {({ countUpRef }) => {
-                // eslint-disable-next-line
-                return <h3 ref={countUpRef} />
-              }}
+              {renderCountUp}
             </CountUp>
           </div>
           <Button
             variant='primary'
             className='btn-shadow mr-2'
-            onClick={() => changeQrVisible(!QrVisible)}
+            onClick={toggleQr}
           >
-            {(QrVisible ? 'Hide' : 'Show') + ' QR'}
+            {(qrVisible ? 'Hide' : 'Show') + ' QR'}
           </Button>
           <LinkContainer to='/qr-reader'>
             <Button variant='primary' className='btn-shadow ml-2'>Scan QR</Button>
