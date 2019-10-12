@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import QrCode from 'qrcode'
 import CountUp from 'react-countup'
 import { FaHistory, FaPowerOff } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -7,8 +8,10 @@ import api from '../api'
 import '../styles/Profile.scss'
 
 const Profile = ({ history }) => {
+  const canvasRef = useRef()
   const [name, changeName] = useState(localStorage.getItem('userName') || '​')
-  const [balance, changeBalance] = useState(localStorage.getItem('balance') || 0)
+  const [balance, changeBalance] = useState(+localStorage.getItem('balance') || 0)
+  const [QrVisible, changeQrVisible] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +27,7 @@ const Profile = ({ history }) => {
         localStorage.setItem('id', id)
         changeName(userName)
         changeBalance(balance)
+        QrCode.toCanvas(canvasRef.current, id, { width: 200 })
       } catch (err) {
         console.error(err.data)
       }
@@ -56,7 +60,11 @@ const Profile = ({ history }) => {
       <Row className='justify-content-center align-items-center profile-row'>
         <Col lg={4} md={8} className='text-center'>
           <div className='avatar--container'>
-            <div className='avatar--content' />
+            <div className={'avatar--content' + (QrVisible ? ' transparent' : '')} />
+            <canvas
+              className={'avatar--canvas m-auto btn-shadow' + (QrVisible ? '' : ' transparent')}
+              ref={canvasRef}
+            />
           </div>
           <div className='mt-4 mb-5'>
             <h3>{name}</h3>
@@ -72,7 +80,13 @@ const Profile = ({ history }) => {
               }}
             </CountUp>
           </div>
-          <Button variant='primary' className='btn-shadow mr-2'>Show QR</Button>
+          <Button
+            variant='primary'
+            className='btn-shadow mr-2'
+            onClick={() => changeQrVisible(!QrVisible)}
+          >
+            {(QrVisible ? 'Hide' : 'Show') + ' QR'}
+          </Button>
           <LinkContainer to='/qr-reader'>
             <Button variant='primary' className='btn-shadow ml-2'>Scan QR</Button>
           </LinkContainer>
