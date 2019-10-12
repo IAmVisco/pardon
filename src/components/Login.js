@@ -81,7 +81,7 @@ const Login = ({ history }) => {
               <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
             </Form.Group>
             <Button ref={node => buttonNode = node} variant='primary' className='btn-shadow' type='submit'>
-              <b>Login</b>
+              Login
               <Spinner
                 ref={node => spinnerNode = node}
                 animation='border'

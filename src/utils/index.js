@@ -10,7 +10,10 @@ const validationMessages = {
   takenUsernameErrorText: 'This username is already taken.'
 }
 
+const UUID_V4 = 4
+
 export {
+  UUID_V4,
   toggleButton,
   validationMessages
 }

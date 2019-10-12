@@ -9,16 +9,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $bg-grey;
-  color: white;
+  color: $font-color;
 }
 
 a {
   color: $link-blue;
 }
 
+button:focus {
+  box-shadow: inherit !important;
+}
+
 .btn-primary {
   background-color: $accent-blue;
   border-color: $accent-blue;
+}
+
+.btn-shadow {
+  font-weight: 600 !important;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 .form-control {

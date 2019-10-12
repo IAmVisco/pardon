@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import jsQR from 'jsqr'
+import validate from 'uuid-validate'
 import '../styles/QrReader.scss'
+import { UUID_V4 } from '../utils'
 
 const QrReader = (props) => {
   const canvasRef = useRef()
@@ -39,8 +41,12 @@ const QrReader = (props) => {
       })
 
       if (qrData && qrData.data) {
-        navigator.vibrate(200) // doesn't work if user haven't tapped/focused on screen
-        props.history.push('/transfer', { data: qrData.data })
+        if (validate(qrData.data, UUID_V4)) {
+          navigator.vibrate(200) // doesn't work if user haven't tapped/focused on screen
+          props.history.push('/transfer', { data: qrData.data })
+        } else {
+          window.alert('That QR code doesn\'t seem valid')
+        }
       }
     }
     window.requestAnimationFrame(drawFrame)

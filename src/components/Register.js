@@ -96,7 +96,7 @@ const Register = (props) => {
               <Form.Control.Feedback type='invalid'>Passwords don't match.</Form.Control.Feedback>
             </Form.Group>
             <Button ref={node => buttonNode = node} variant='primary' className='btn-shadow' type='submit'>
-              <b>Register</b>
+              Register
               <Spinner
                 ref={node => spinnerNode = node}
                 animation='border'
