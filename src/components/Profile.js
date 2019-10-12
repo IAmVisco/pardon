@@ -37,8 +37,6 @@ const Profile = ({ history }) => {
     history.push('/')
   }
 
-  console.log(balance)
-
   return (
     <Container fluid>
       <Row className='justify-content-right'>

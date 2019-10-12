@@ -31,7 +31,8 @@ const Register = (props) => {
     }
 
     try {
-      await api.user.register(email, username, password)
+      const resp = await api.user.register(email, username, password)
+      console.log(resp.data)
     } catch (err) {
       if (err.response.status !== 200 || err.response.data.errors) {
         console.error(err.response)

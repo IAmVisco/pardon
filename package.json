@@ -33,6 +33,7 @@
       "localStorage": true
     },
     "rules": {
+      "no-console": ["error", { "allow": ["error"] }],
       "no-return-assign": "off",
       "react/prop-types": "off",
       "space-before-function-paren": "off"

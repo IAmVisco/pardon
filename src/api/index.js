@@ -18,7 +18,7 @@ const _getAuthHeaders = (otherHeaders) => {
 export default {
   user: {
     async register(email, userName, password) {
-      return axios.post('user/sing-up', { userName, password })
+      return axios.post('user/sign-up', { userName, password })
     },
 
     async login(userName, password) {
