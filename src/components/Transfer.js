@@ -5,16 +5,24 @@ import '../styles/Transfer.scss'
 
 const Transfer = ({ location }) => {
   const quickChangeAmount = 100
-  const [transferAmount, changeTransferAmount] = useState('')
+  const [transferAmount, changeTransferAmount] = useState(0)
   const id = (location.state && location.state.data) || 123
 
   const handleInputChange = (e) => {
-    changeTransferAmount(e.target.value)
+    changeTransferAmount(+e.target.value)
   }
 
   const handleSend = () => {
     // eslint-disable-next-line
-    console.log(transferAmount, 'to', id)
+    console.log(`Sending ${transferAmount} to ${id}`)
+  }
+
+  const handleQuickChangeClick = (changeValue) => {
+    if (changeValue <= 0 && transferAmount < quickChangeAmount) {
+      changeTransferAmount(0)
+      return
+    }
+    changeTransferAmount(transferAmount + +changeValue)
   }
 
   return id
@@ -36,8 +44,20 @@ const Transfer = ({ location }) => {
               onChange={handleInputChange}
             />
             <div className='mb-5'>
-              <Button variant='secondary' className='btn-shadow btn-transfer mr-2'>{-quickChangeAmount}</Button>
-              <Button variant='secondary' className='btn-shadow btn-transfer ml-2'>{'+' + quickChangeAmount}</Button>
+              <Button
+                variant='secondary'
+                className='btn-shadow btn-quick-transfer mr-2'
+                onClick={() => handleQuickChangeClick(-quickChangeAmount)}
+              >
+                {-quickChangeAmount}
+              </Button>
+              <Button
+                variant='secondary'
+                className='btn-shadow btn-quick-transfer ml-2'
+                onClick={() => handleQuickChangeClick(quickChangeAmount)}
+              >
+                {'+' + quickChangeAmount}
+              </Button>
             </div>
             <Button
               variant='primary'
