@@ -5,7 +5,7 @@ import api from '../api'
 import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
-const Login = (props) => {
+const Login = ({ history }) => {
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [error] = useState('Invalid credentials')
@@ -16,7 +16,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      props.history.push('/profile')
+      history.push('/profile')
     }
     // eslint-disable-next-line
   }, [])
@@ -37,9 +37,10 @@ const Login = (props) => {
       if (!res.data) {
         passwordNode.current.setCustomValidity('invalid')
       }
-      const { token, login, balance } = res.data
+
+      const { token } = res.data
       localStorage.setItem('token', token)
-      props.history.push('/profile', { login, balance })
+      history.push('/profile')
     } catch (err) {
       console.error(err.response)
       toggleButton(buttonNode, spinnerNode)

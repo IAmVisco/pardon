@@ -1,19 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import CountUp from 'react-countup'
 import { FaHistory, FaPowerOff } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Container, Row } from 'react-bootstrap'
+import api from '../api'
 import '../styles/Profile.scss'
 
-const Profile = ({ location, history }) => {
-  /* eslint-disable */
-  const [name] = useState(location.state && location.state.login || 'Fix this')
-  const [balance] = useState(location.state && location.state.balance || 999)
-  /* eslint-enable */
+const Profile = ({ history }) => {
+  const [name, changeName] = useState(localStorage.getItem('userName') || '​')
+  const [balance, changeBalance] = useState(localStorage.getItem('balance') || 0)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await api.user.getSelf()
+        if (!userData.data) {
+          return
+        }
+
+        const { userName, balance, id } = userData.data
+        localStorage.setItem('userName', userName)
+        localStorage.setItem('balance', balance)
+        localStorage.setItem('id', id)
+        changeName(userName)
+        changeBalance(balance)
+      } catch (err) {
+        console.error(err.data)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.clear()
     history.push('/')
   }
+
+  console.log(balance)
 
   return (
     <Container fluid>
@@ -38,11 +62,21 @@ const Profile = ({ location, history }) => {
           </div>
           <div className='mt-4 mb-5'>
             <h3>{name}</h3>
-            <h3>Balance: {balance}</h3>
+            <CountUp
+              delay={0}
+              duration={1}
+              end={balance}
+              prefix='Balance: '
+            >
+              {({ countUpRef }) => {
+                // eslint-disable-next-line
+                return <h3 ref={countUpRef} />
+              }}
+            </CountUp>
           </div>
-          <Button variant='primary' className='btn-shadow mr-3'>Show QR</Button>
+          <Button variant='primary' className='btn-shadow mr-2'>Show QR</Button>
           <LinkContainer to='/qr-reader'>
-            <Button variant='primary' className='btn-shadow'>Scan QR</Button>
+            <Button variant='primary' className='btn-shadow ml-2'>Scan QR</Button>
           </LinkContainer>
         </Col>
       </Row>
