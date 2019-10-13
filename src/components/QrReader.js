@@ -4,7 +4,7 @@ import validate from 'uuid-validate'
 import '../styles/QrReader.scss'
 import { UUID_V4 } from '../utils'
 
-const QrReader = (props) => {
+const QrReader = ({ history }) => {
   const canvasRef = useRef()
   const contextRef = useRef()
   const [hourglassVisible, changeHourglassVisible] = useState(true)
@@ -12,7 +12,7 @@ const QrReader = (props) => {
   const video = document.createElement('video')
   const { height, width, orientation } = window.screen
   // noinspection JSSuspiciousNameCombination
-  const constraintDimensions = orientation.type.includes('landscape')
+  const constraintDimensions = orientation && orientation.type.includes('landscape')
     ? { width, height }
     : { width: height, height: width }
 
@@ -42,8 +42,8 @@ const QrReader = (props) => {
 
       if (qrData && qrData.data) {
         if (validate(qrData.data, UUID_V4)) {
-          navigator.vibrate(200) // doesn't work if user haven't tapped/focused on screen
-          props.history.push('/transfer', { data: qrData.data })
+          history.push('/transfer', { data: qrData.data })
+          return
         } else {
           window.alert('That QR code doesn\'t seem valid')
         }
@@ -62,7 +62,9 @@ const QrReader = (props) => {
     window.navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
       window.streamRef = stream // TODO: figure out why state doesn't work but window does
       video.srcObject = stream
-      video.setAttribute('playsinline', true) // required to tell iOS safari we don't want fullscreen
+      video.setAttribute('playsinline', '')
+      video.setAttribute('autoplay', '')
+      video.setAttribute('muted', '')
       video.play()
       window.requestAnimationFrame(drawFrame)
       changeHourglassVisible(false)
