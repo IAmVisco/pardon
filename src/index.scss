@@ -16,13 +16,22 @@ a {
   color: $link-blue;
 }
 
-button:focus {
+.btn:focus {
   box-shadow: inherit !important;
 }
 
 .btn-primary {
   background-color: $accent-blue;
   border-color: $accent-blue;
+
+  &:focus {
+    box-shadow: inherit !important;
+  }
+}
+
+.btn-full-width {
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .btn-shadow {

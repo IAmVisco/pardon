@@ -9,8 +9,8 @@ const Login = ({ history }) => {
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [error] = useState('Invalid credentials')
-  const passwordNode = useRef()
   const form = useRef()
+  const passwordNode = useRef()
   let spinnerNode = useRef()
   let buttonNode = useRef()
 
@@ -80,7 +80,12 @@ const Login = ({ history }) => {
               />
               <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
             </Form.Group>
-            <Button ref={node => buttonNode = node} variant='primary' className='btn-shadow' type='submit'>
+            <Button
+              ref={node => buttonNode = node}
+              className='btn-shadow btn-full-width'
+              variant='primary'
+              type='submit'
+            >
               Login
               <Spinner
                 ref={node => spinnerNode = node}

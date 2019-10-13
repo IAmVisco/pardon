@@ -105,7 +105,12 @@ const Register = ({ history }) => {
               />
               <Form.Control.Feedback type='invalid'>Passwords don't match.</Form.Control.Feedback>
             </Form.Group>
-            <Button ref={node => buttonNode = node} variant='primary' className='btn-shadow' type='submit'>
+            <Button
+              ref={node => buttonNode = node}
+              className='btn-shadow btn-full-width'
+              variant='primary'
+              type='submit'
+            >
               Register
               <Spinner
                 ref={node => spinnerNode = node}
