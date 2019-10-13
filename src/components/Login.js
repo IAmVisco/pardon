@@ -13,8 +13,8 @@ const Login = ({ history }) => {
   const [error, changeError] = useState('Incorrect username/password')
   const form = useRef()
   const passwordNode = useRef()
-  let buttonNode = useRef()
-  let spinnerNode = useRef()
+  let buttonNode = null
+  let spinnerNode = null
 
   useEffect(() => {
     if (localStorage.getItem('token')) {

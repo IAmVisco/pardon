@@ -22,8 +22,8 @@ const Register = ({ history }) => {
   )
   // const [error, changeError] = useState('Invalid credentials')
   const form = useRef()
-  let buttonNode = useRef()
-  let spinnerNode = useRef()
+  let buttonNode = null
+  let spinnerNode = null
 
   useEffect(() => {
     if (localStorage.getItem('token')) {

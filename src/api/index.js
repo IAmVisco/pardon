@@ -29,8 +29,17 @@ export default {
       return axios.get('user', _getAuthHeaders())
     },
 
+    async getUser(id) {
+      return axios.get(`user/${id}`, _getAuthHeaders())
+    },
+
     async logout() {
       return axios.get('user/logout')
+    }
+  },
+  transfer: {
+    async transfer(id, amount) {
+      return axios.post('transfer', { id, amount }, _getAuthHeaders())
     }
   }
 }

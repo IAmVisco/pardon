@@ -1,20 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { Button, Col, Container, Row } from 'react-bootstrap'
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
+import api from '../api'
 import '../styles/Transfer.scss'
+import { toggleButton } from '../utils'
 
-const Transfer = ({ location }) => {
+const Transfer = ({ location, history }) => {
   const quickChangeAmount = 100
+  const [transferUsername, changeTransferUsername] = useState('​')
   const [transferAmount, changeTransferAmount] = useState(0)
-  const id = (location.state && location.state.data) || 123
+  const id = location.state && location.state.data
+  let buttonNode = null
+  let spinnerNode = null
 
   const handleInputChange = (e) => {
     changeTransferAmount(+e.target.value)
   }
 
-  const handleSend = () => {
-    // eslint-disable-next-line
-    console.log(`Sending ${transferAmount} to ${id}`)
+  const handleSend = async () => {
+    toggleButton(buttonNode, spinnerNode)
+    try {
+      const res = await api.transfer.transfer(id, transferAmount)
+      history.push('/profile')
+    } catch (err) {
+      console.error(err.data)
+      toggleButton(buttonNode, spinnerNode)
+    }
   }
 
   const handleQuickChangeClick = (changeValue) => {
@@ -25,6 +36,22 @@ const Transfer = ({ location }) => {
     changeTransferAmount(transferAmount + +changeValue)
   }
 
+  useEffect(() => {
+    if (!id) {
+      history.push('/profile')
+      return
+    }
+
+    const fetchUser = async () => {
+      const res = await api.user.getUser(id)
+      const { userName } = res.data
+      changeTransferUsername(userName)
+    }
+
+    fetchUser()
+    // eslint-disable-next-line
+  }, [])
+
   return id
     ? (
       <Container>
@@ -34,7 +61,7 @@ const Transfer = ({ location }) => {
               <div className='avatar--content' />
             </div>
             <div className='mt-4 mb-5'>
-              <h3>Name</h3>
+              <h3>{transferUsername}</h3>
             </div>
             <input
               type='number'
@@ -60,11 +87,18 @@ const Transfer = ({ location }) => {
               </Button>
             </div>
             <Button
+              ref={node => buttonNode = node}
               variant='primary'
               className='btn-shadow btn-send mt-5 mb-2'
               onClick={handleSend}
             >
               Send
+              <Spinner
+                ref={node => spinnerNode = node}
+                animation='border'
+                className='btn-spinner ml-1 d-none'
+                size='sm'
+              />
             </Button>
             <small>
               Doesn't look right?
