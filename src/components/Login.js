@@ -6,13 +6,15 @@ import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
 const Login = ({ history }) => {
+  const minPasswordLength = 6
+  const maxPasswordLength = 64
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
-  const [error] = useState('Invalid credentials')
+  const [error, changeError] = useState('Incorrect username/password')
   const form = useRef()
   const passwordNode = useRef()
-  let spinnerNode = useRef()
   let buttonNode = useRef()
+  let spinnerNode = useRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -42,10 +44,15 @@ const Login = ({ history }) => {
       localStorage.setItem('token', token)
       history.push('/profile')
     } catch (err) {
-      console.error(err.response)
       toggleButton(buttonNode, spinnerNode)
-      // changeError(err.response.data.data)
-      // passwordNode.setCustomValidity(error)
+      console.error(err.response)
+      const { Authorization, errors } = err.response.data
+      if (Authorization) {
+        changeError(Authorization[0])
+      } else {
+        changeError(Object.values(errors)[0][0])
+      }
+      passwordNode.current.setCustomValidity('invalid')
     }
   }
 
@@ -64,17 +71,20 @@ const Login = ({ history }) => {
               <Form.Control
                 required
                 type='text'
-                name='email'
                 placeholder='Email'
                 onChange={(e) => changeEmail(e.target.value)}
               />
+              <Form.Control.Feedback type='invalid'>
+                The Email field is not a valid e-mail address.
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId='loginPassword'>
               <Form.Control
                 ref={passwordNode}
                 required
+                minLength={minPasswordLength}
+                maxLength={maxPasswordLength}
                 type='password'
-                name='password'
                 placeholder='Password'
                 onChange={(e) => changePassword(e.target.value)}
               />

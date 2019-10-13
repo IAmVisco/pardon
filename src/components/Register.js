@@ -6,15 +6,24 @@ import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
 const Register = ({ history }) => {
+  const minUsernameLength = 3
+  const maxUsernameLength = 16
+  const minPasswordLength = 6
+  const maxPasswordLength = 64
   const [email, changeEmail] = useState('')
   const [username, changeUsername] = useState('')
   const [password, changePassword] = useState('')
   const [passwordConfirmation, changePasswordConfirmation] = useState('')
-  const [userNameError, changeUserNameError] = useState('Username has to be 4 to 12 symbols long.')
+  const [usernameError, changeUsernameError] = useState(
+    `Username has to be ${minUsernameLength} to ${maxUsernameLength} symbols long.`
+  )
+  const [passwordError, changePasswordError] = useState(
+    `Password should be at least ${minPasswordLength} symbols long.`
+  )
   // const [error, changeError] = useState('Invalid credentials')
   const form = useRef()
-  let spinnerNode = useRef()
   let buttonNode = useRef()
+  let spinnerNode = useRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -42,7 +51,10 @@ const Register = ({ history }) => {
       if (err.response.status !== 200 || err.response.data.errors) {
         const { errors } = err.response.data
         if (errors.UserName) {
-          changeUserNameError(errors.UserName[0])
+          changeUsernameError(errors.UserName[0])
+        }
+        if (errors.Password) {
+          changePasswordError(errors.Password[0])
         }
         console.error(err.response)
       }
@@ -64,7 +76,6 @@ const Register = ({ history }) => {
               <Form.Control
                 required
                 type='email'
-                name='email'
                 placeholder='Email'
                 onChange={(e) => changeEmail(e.target.value)}
               />
@@ -72,33 +83,34 @@ const Register = ({ history }) => {
             <Form.Group controlId='registerUsername'>
               <Form.Control
                 required
-                minLength='4'
-                maxLength='12'
+                minLength={minUsernameLength}
+                maxLength={maxUsernameLength}
                 type='text'
-                name='username'
                 placeholder='Username'
                 onChange={(e) => changeUsername(e.target.value)}
-                isInvalid={username !== '' && (username.length < 4 || username.length > 12)}
+                isInvalid={
+                  username !== '' && (username.length < minUsernameLength || username.length > maxUsernameLength)
+                }
               />
-              <Form.Control.Feedback type='invalid'>{userNameError}</Form.Control.Feedback>
+              <Form.Control.Feedback type='invalid'>{usernameError}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId='registerPassword'>
               <Form.Control
                 required
-                minLength='6'
+                minLength={minPasswordLength}
+                maxLength={maxPasswordLength}
                 type='password'
-                name='password'
                 placeholder='Password'
                 onChange={(e) => changePassword(e.target.value)}
               />
-              <Form.Control.Feedback type='invalid'>Password should be at least 6 symbols long.</Form.Control.Feedback>
+              <Form.Control.Feedback type='invalid'>{passwordError}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId='registerPasswordConfirmation'>
               <Form.Control
                 required
-                minLength='6'
+                minLength={minPasswordLength}
+                maxLength={maxPasswordLength}
                 type='password'
-                name='passwordConfirmation'
                 placeholder='Password confirmation'
                 onChange={(e) => changePasswordConfirmation(e.target.value)}
                 isInvalid={passwordConfirmation !== password}
