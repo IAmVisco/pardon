@@ -52,6 +52,6 @@
 
   &:hover,
   &:focus {
-    background-color: lighten($color-placeholder, 10%);
+    background-color: darken($color-placeholder, 15%);
   }
 }

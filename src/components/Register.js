@@ -5,11 +5,12 @@ import api from '../api'
 import '../styles/AuthForm.scss'
 import { toggleButton } from '../utils'
 
-const Register = (props) => {
+const Register = ({ history }) => {
   const [email, changeEmail] = useState('')
   const [username, changeUsername] = useState('')
   const [password, changePassword] = useState('')
   const [passwordConfirmation, changePasswordConfirmation] = useState('')
+  const [userNameError, changeUserNameError] = useState('Username has to be 4 to 12 symbols long.')
   // const [error, changeError] = useState('Invalid credentials')
   const form = useRef()
   let spinnerNode = useRef()
@@ -17,9 +18,10 @@ const Register = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      props.history.push('/profile')
+      history.push('/profile')
     }
-  })
+    // eslint-disable-next-line
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -31,17 +33,22 @@ const Register = (props) => {
     }
 
     try {
-      const resp = await api.user.register(email, username, password)
-      console.log(resp.data)
+      const res = await api.user.register(email, username, password)
+      const { token } = res.data
+      localStorage.setItem('token', token)
+      history.push('/profile')
     } catch (err) {
+      toggleButton(buttonNode, spinnerNode)
       if (err.response.status !== 200 || err.response.data.errors) {
+        const { errors } = err.response.data
+        if (errors.UserName) {
+          changeUserNameError(errors.UserName[0])
+        }
         console.error(err.response)
       }
-      // changeError(err.response.data.errors) // Need errors response
-    } finally {
-      toggleButton(buttonNode, spinnerNode)
     }
   }
+
   return (
     <Container fluid>
       <Row className='justify-content-center align-items-center full-vh-row'>
@@ -66,11 +73,14 @@ const Register = (props) => {
               <Form.Control
                 required
                 minLength='4'
+                maxLength='12'
                 type='text'
                 name='username'
                 placeholder='Username'
                 onChange={(e) => changeUsername(e.target.value)}
+                isInvalid={username !== '' && (username.length < 4 || username.length > 12)}
               />
+              <Form.Control.Feedback type='invalid'>{userNameError}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId='registerPassword'>
               <Form.Control
