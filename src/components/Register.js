@@ -20,7 +20,6 @@ const Register = ({ history }) => {
   const [passwordError, changePasswordError] = useState(
     `Password should be at least ${minPasswordLength} symbols long.`
   )
-  // const [error, changeError] = useState('Invalid credentials')
   const form = useRef()
   const buttonRef = useRef()
   const spinnerRef = useRef()

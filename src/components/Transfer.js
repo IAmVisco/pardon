@@ -11,13 +11,14 @@ const Transfer = ({ location, history }) => {
   const spinnerRef = useRef()
   const checkId = 'icon-check'
   const quickChangeAmount = 100
+  const [error, changeError] = useState('')
   const [transferAmount, changeTransferAmount] = useState(0)
   const [transferUsername, changeTransferUsername] = useState('​')
   const [transferredStatus, changeTransferredStatus] = useState(false)
   const id = location.state && location.state.data
 
   const handleInputChange = (e) => {
-    changeTransferAmount(+e.target.value)
+    changeTransferAmount(e.target.value.replace(/^0+/, ''))
   }
 
   const handleSend = async () => {
@@ -27,7 +28,7 @@ const Transfer = ({ location, history }) => {
 
     const button = buttonRef.current
     const spinner = spinnerRef.current
-
+    changeError('')
     toggleButton(button, spinner)
     try {
       await api.transfer.transfer(id, transferAmount)
@@ -38,7 +39,9 @@ const Transfer = ({ location, history }) => {
       setTimeout(() => history.push('/profile'), 500)
     } catch (err) {
       toggleButton(button, spinner)
-      console.error(err.data)
+      const { errors } = err.response.data
+      errors && changeError(errors.Amount[0])
+      console.error(err.response.data)
     }
   }
 
@@ -57,9 +60,13 @@ const Transfer = ({ location, history }) => {
     }
 
     const fetchUser = async () => {
-      const res = await api.user.getUser(id)
-      const { userName } = res.data
-      changeTransferUsername(userName)
+      try {
+        const res = await api.user.getUser(id)
+        const { userName } = res.data
+        changeTransferUsername(userName)
+      } catch (err) {
+        history.push('/profile')
+      }
     }
 
     fetchUser()
@@ -103,7 +110,7 @@ const Transfer = ({ location, history }) => {
             <Button
               ref={node => buttonRef.current = node}
               variant='primary'
-              className='btn-shadow btn-send mt-5 mb-2'
+              className='btn-shadow btn-send mt-3 mb-2'
               onClick={handleSend}
             >
               Send
@@ -115,6 +122,7 @@ const Transfer = ({ location, history }) => {
               />
               <MdCheck size='1.5em' id={checkId} hidden />
             </Button>
+            <small className={error ? 'transfer-error d-block' : 'd-none'}>{error}</small>
             <small>
               Doesn't look right?
               <Link to='/profile'> Go back</Link>
