@@ -29,11 +29,15 @@ const Profile = ({ history }) => {
         changeBalance(balance)
         QrCode.toCanvas(canvasRef.current, id, { width: 200 })
       } catch (err) {
+        if (err.response.status === 401) {
+          logout()
+        }
         console.error(err.data)
       }
     }
 
     fetchData()
+    // eslint-disable-next-line
   }, [])
 
   const logout = () => {

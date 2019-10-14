@@ -20,7 +20,7 @@ const Transfer = ({ location, history }) => {
   const handleSend = async () => {
     toggleButton(buttonNode, spinnerNode)
     try {
-      const res = await api.transfer.transfer(id, transferAmount)
+      await api.transfer.transfer(id, transferAmount)
       history.push('/profile')
     } catch (err) {
       console.error(err.data)
