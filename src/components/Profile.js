@@ -10,8 +10,11 @@ import '../styles/Profile.scss'
 const Profile = ({ history }) => {
   const iconSize = '1.8em'
   const canvasRef = useRef()
-  const [name, changeName] = useState(localStorage.getItem('userName') || '​')
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  const copyQrText = `${(isMobile ? 'Tap' : 'Click')} to copy`
+  const [username, changeUsername] = useState(localStorage.getItem('userName') || '​')
   const [balance, changeBalance] = useState(+localStorage.getItem('balance') || 0)
+  const [id, changeId] = useState(localStorage.getItem('id') || '')
   const [qrVisible, changeQrVisible] = useState(false)
 
   useEffect(() => {
@@ -23,11 +26,12 @@ const Profile = ({ history }) => {
         }
 
         const { userName, balance, id } = userData.data
-        localStorage.setItem('userName', userName)
-        localStorage.setItem('balance', balance)
         localStorage.setItem('id', id)
-        changeName(userName)
+        localStorage.setItem('balance', balance)
+        localStorage.setItem('userName', userName)
+        changeId(id)
         changeBalance(balance)
+        changeUsername(userName)
         QrCode.toCanvas(canvasRef.current, id, { width: 200 })
       } catch (err) {
         if (err.response.status === 401) {
@@ -51,6 +55,8 @@ const Profile = ({ history }) => {
 
   const toggleQr = () => changeQrVisible(!qrVisible)
 
+  const copyId = () => navigator.clipboard.writeText(id)
+
   return (
     <Container fluid>
       <Row className='justify-content-right'>
@@ -58,7 +64,7 @@ const Profile = ({ history }) => {
           <div className='sm-btn' title='Logout' onClick={logout}>
             <MdPowerSettingsNew size={iconSize} />
           </div>
-          <div className='sm-btn' title='Transaction history'>
+          <div className='sm-btn' title='Transaction history' onClick={() => history.push('/history')}>
             <MdHistory size={iconSize} className='icon-history' />
           </div>
         </Col>
@@ -66,14 +72,19 @@ const Profile = ({ history }) => {
       <Row className='justify-content-center align-items-center profile-row'>
         <Col lg={4} md={8} className='text-center'>
           <div className='avatar--container'>
-            <div className={'avatar--content' + (qrVisible ? ' transparent' : '')} />
+            <div
+              className={'avatar--content' + (qrVisible ? ' transparent' : '')}
+              onClick={() => console.log('change pic')}
+            />
             <canvas
-              className={'avatar--canvas m-auto btn-shadow' + (qrVisible ? '' : ' transparent')}
+              className={'avatar--canvas profile-fade-in m-auto btn-shadow' + (qrVisible ? '' : ' transparent')}
+              onClick={copyId}
               ref={canvasRef}
             />
           </div>
           <div className='mt-4 mb-5'>
-            <h3>{name}</h3>
+            <small className={'profile-fade-in' + (qrVisible ? '' : ' transparent')}>{copyQrText}</small>
+            <h3>{username}</h3>
             <CountUp
               delay={0}
               duration={1}

@@ -40,6 +40,10 @@ export default {
   transfer: {
     async transfer(id, amount) {
       return axios.post('transfer', { id, amount }, _getAuthHeaders())
+    },
+
+    async history() {
+      return axios.get('transfer/history', _getAuthHeaders())
     }
   }
 }

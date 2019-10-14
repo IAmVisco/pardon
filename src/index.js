@@ -11,6 +11,7 @@ import Profile from './components/Profile'
 import Register from './components/Register'
 import QrReader from './components/QrReader'
 import Transfer from './components/Transfer'
+import History from './components/History/History'
 
 const Routing = withRouter(({ location }) => {
   return (
@@ -28,6 +29,7 @@ const Routing = withRouter(({ location }) => {
             <Route exact path='/profile' component={Profile} />
             <Route exact path='/qr-reader' component={QrReader} />
             <Route exact path='/transfer' component={Transfer} />
+            <Route exact path='/history' component={History} />
           </Switch>
         </div>
       </CSSTransition>
