@@ -11,10 +11,10 @@ const Login = ({ history }) => {
   const [email, changeEmail] = useState('')
   const [password, changePassword] = useState('')
   const [error, changeError] = useState('Incorrect username/password')
-  const form = useRef()
-  const passwordNode = useRef()
-  let buttonNode = null
-  let spinnerNode = null
+  const formRef = useRef()
+  const buttonRef = useRef()
+  const spinnerRef = useRef()
+  const passwordRef = useRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -25,26 +25,29 @@ const Login = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    toggleButton(buttonNode, spinnerNode)
+    const form = formRef.current
+    const button = buttonRef.current
+    const spinner = spinnerRef.current
+    const passwordNode = passwordRef.current
 
-    passwordNode.current.setCustomValidity('')
-    form.current.classList.add('was-validated')
+    passwordNode.setCustomValidity('')
+    form.classList.add('was-validated')
     if (!e.currentTarget.checkValidity()) {
-      toggleButton(buttonNode, spinnerNode)
       return
     }
 
+    toggleButton(button, spinner)
     try {
       const res = await api.user.login(email, password)
       if (!res.data) {
-        passwordNode.current.setCustomValidity('invalid')
+        passwordNode.setCustomValidity('invalid')
       }
 
       const { token } = res.data
       localStorage.setItem('token', token)
       history.push('/profile')
     } catch (err) {
-      toggleButton(buttonNode, spinnerNode)
+      toggleButton(button, spinner)
       console.error(err.response)
       const { Authorization, errors } = err.response.data
       if (Authorization) {
@@ -52,7 +55,7 @@ const Login = ({ history }) => {
       } else {
         changeError(Object.values(errors)[0][0])
       }
-      passwordNode.current.setCustomValidity('invalid')
+      passwordNode.setCustomValidity('invalid')
     }
   }
 
@@ -61,7 +64,7 @@ const Login = ({ history }) => {
       <Row className='justify-content-center align-items-center full-vh-row'>
         <Col lg={4} md={8}>
           <Form
-            ref={form}
+            ref={formRef}
             noValidate
             className='login-form'
             onSubmit={handleSubmit}
@@ -70,7 +73,7 @@ const Login = ({ history }) => {
             <Form.Group controlId='loginEmail'>
               <Form.Control
                 required
-                type='text'
+                type='email'
                 placeholder='Email'
                 onChange={(e) => changeEmail(e.target.value)}
               />
@@ -80,7 +83,7 @@ const Login = ({ history }) => {
             </Form.Group>
             <Form.Group controlId='loginPassword'>
               <Form.Control
-                ref={passwordNode}
+                ref={node => passwordRef.current = node}
                 required
                 minLength={minPasswordLength}
                 maxLength={maxPasswordLength}
@@ -91,14 +94,14 @@ const Login = ({ history }) => {
               <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
             </Form.Group>
             <Button
-              ref={node => buttonNode = node}
+              ref={node => buttonRef.current = node}
               className='btn-shadow btn-full-width'
               variant='primary'
               type='submit'
             >
               Login
               <Spinner
-                ref={node => spinnerNode = node}
+                ref={node => spinnerRef.current = node}
                 animation='border'
                 className='btn-spinner ml-1 d-none'
                 size='sm'

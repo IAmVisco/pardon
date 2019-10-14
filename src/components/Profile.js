@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import QrCode from 'qrcode'
 import CountUp from 'react-countup'
-import { FaHistory, FaPowerOff } from 'react-icons/fa'
+import { MdHistory, MdPowerSettingsNew } from 'react-icons/md'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import api from '../api'
 import '../styles/Profile.scss'
 
 const Profile = ({ history }) => {
+  const iconSize = '1.8em'
   const canvasRef = useRef()
   const [name, changeName] = useState(localStorage.getItem('userName') || '​')
   const [balance, changeBalance] = useState(+localStorage.getItem('balance') || 0)
@@ -55,10 +56,10 @@ const Profile = ({ history }) => {
       <Row className='justify-content-right'>
         <Col lg={12}>
           <div className='sm-btn' title='Logout' onClick={logout}>
-            <FaPowerOff size='1.5em' />
+            <MdPowerSettingsNew size={iconSize} />
           </div>
           <div className='sm-btn' title='Transaction history'>
-            <FaHistory size='1.5em' />
+            <MdHistory size={iconSize} className='icon-history' />
           </div>
         </Col>
       </Row>

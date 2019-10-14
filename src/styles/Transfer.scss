@@ -29,3 +29,12 @@
 .btn-send {
   width: 100%;
 }
+
+.btn-transfer-success {
+  background-color: #28a745 !important;
+  transition: background-color .2s ease-in;
+}
+
+#icon-check {
+  padding-bottom: 2px;
+}

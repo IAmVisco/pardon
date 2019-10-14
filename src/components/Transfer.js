@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { MdCheck } from 'react-icons/md'
 import { Link, Redirect } from 'react-router-dom'
 import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
 import api from '../api'
@@ -6,25 +7,38 @@ import '../styles/Transfer.scss'
 import { toggleButton } from '../utils'
 
 const Transfer = ({ location, history }) => {
+  const buttonRef = useRef()
+  const spinnerRef = useRef()
+  const checkId = 'icon-check'
   const quickChangeAmount = 100
-  const [transferUsername, changeTransferUsername] = useState('​')
   const [transferAmount, changeTransferAmount] = useState(0)
+  const [transferUsername, changeTransferUsername] = useState('​')
+  const [transferredStatus, changeTransferredStatus] = useState(false)
   const id = location.state && location.state.data
-  let buttonNode = null
-  let spinnerNode = null
 
   const handleInputChange = (e) => {
     changeTransferAmount(+e.target.value)
   }
 
   const handleSend = async () => {
-    toggleButton(buttonNode, spinnerNode)
+    if (transferredStatus) {
+      return
+    }
+
+    const button = buttonRef.current
+    const spinner = spinnerRef.current
+
+    toggleButton(button, spinner)
     try {
       await api.transfer.transfer(id, transferAmount)
-      history.push('/profile')
+      changeTransferredStatus(true)
+      toggleButton(button, spinner)
+      button.classList.add('btn-transfer-success')
+      document.getElementById(checkId).removeAttribute('hidden')
+      setTimeout(() => history.push('/profile'), 500)
     } catch (err) {
+      toggleButton(button, spinner)
       console.error(err.data)
-      toggleButton(buttonNode, spinnerNode)
     }
   }
 
@@ -87,18 +101,19 @@ const Transfer = ({ location, history }) => {
               </Button>
             </div>
             <Button
-              ref={node => buttonNode = node}
+              ref={node => buttonRef.current = node}
               variant='primary'
               className='btn-shadow btn-send mt-5 mb-2'
               onClick={handleSend}
             >
               Send
               <Spinner
-                ref={node => spinnerNode = node}
+                ref={node => spinnerRef.current = node}
                 animation='border'
                 className='btn-spinner ml-1 d-none'
                 size='sm'
               />
+              <MdCheck size='1.5em' id={checkId} hidden />
             </Button>
             <small>
               Doesn't look right?

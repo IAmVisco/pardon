@@ -22,8 +22,8 @@ const Register = ({ history }) => {
   )
   // const [error, changeError] = useState('Invalid credentials')
   const form = useRef()
-  let buttonNode = null
-  let spinnerNode = null
+  const buttonRef = useRef()
+  const spinnerRef = useRef()
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -34,20 +34,22 @@ const Register = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    toggleButton(buttonNode, spinnerNode)
+    const button = buttonRef.current
+    const spinner = spinnerRef.current
+
     if (!e.currentTarget.checkValidity()) {
-      toggleButton(buttonNode, spinnerNode)
       form.current.classList.add('was-validated')
       return
     }
 
+    toggleButton(button, spinner)
     try {
       const res = await api.user.register(email, username, password)
       const { token } = res.data
       localStorage.setItem('token', token)
       history.push('/profile')
     } catch (err) {
-      toggleButton(buttonNode, spinnerNode)
+      toggleButton(button, spinner)
       if (err.response.status !== 200 || err.response.data.errors) {
         const { errors } = err.response.data
         if (errors.UserName) {
@@ -118,14 +120,14 @@ const Register = ({ history }) => {
               <Form.Control.Feedback type='invalid'>Passwords don't match.</Form.Control.Feedback>
             </Form.Group>
             <Button
-              ref={node => buttonNode = node}
+              ref={node => buttonRef.current = node}
               className='btn-shadow btn-full-width'
               variant='primary'
               type='submit'
             >
               Register
               <Spinner
-                ref={node => spinnerNode = node}
+                ref={node => spinnerRef.current = node}
                 animation='border'
                 className='btn-spinner ml-1 d-none'
                 size='sm'
